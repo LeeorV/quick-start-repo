@@ -1,6 +1,9 @@
 spec_version: 1
 kind: application
 
+inputs:
+  - AWS_Instance_Type: t3.medium
+
 source:
   os_type: linux
   image:
