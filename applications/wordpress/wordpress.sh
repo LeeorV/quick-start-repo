@@ -32,8 +32,11 @@ echo "****************************************************************"
 echo "Installing Wordpress"
 echo "****************************************************************"
 
-echo wget -c http://wordpress.org/latest.tar.gz 
-cp $(find $ARTIFACTS_PATH -name 'wordpress*.tar.gz') ./wordpress.tar.gz >/dev/null
+if ls $ARTIFACTS_PATH/wordpress*.tar.gz 1> /dev/null 2>&1; then
+    cp $(find $ARTIFACTS_PATH -name 'wordpress*.tar.gz') ./wordpress.tar.gz >/dev/null
+else
+    wget -c http://wordpress.org/latest.tar.gz -O wordpress.tar.gz 
+fi
 tar -xzvf wordpress.tar.gz >/dev/null
 rsync -av wordpress/* /var/www/html/ >/dev/null
 chown -R www-data:www-data /var/www/html/ >/dev/null
