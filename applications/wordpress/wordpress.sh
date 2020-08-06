@@ -31,8 +31,13 @@ apt-get install php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-cli php7.0-cgi 
 echo "****************************************************************"
 echo "Installing Wordpress"
 echo "****************************************************************"
-wget -c http://wordpress.org/latest.tar.gz >/dev/null
-tar -xzvf latest.tar.gz >/dev/null
+
+if ls $ARTIFACTS_PATH/wordpress*.tar.gz 1> /dev/null 2>&1; then
+    cp $(find $ARTIFACTS_PATH -name 'wordpress*.tar.gz') ./wordpress.tar.gz >/dev/null
+else
+    wget -c http://wordpress.org/latest.tar.gz -O wordpress.tar.gz 
+fi
+tar -xzvf wordpress.tar.gz >/dev/null
 rsync -av wordpress/* /var/www/html/ >/dev/null
 chown -R www-data:www-data /var/www/html/ >/dev/null
 chmod -R 755 /var/www/html/ >/dev/null
