@@ -32,6 +32,7 @@ echo "Get the web application from github"
 echo "****************************************************************"
 mkdir /home/artifacts
 cd /home/artifacts || exit
+
 git clone https://github.com/cloudshell-colony/sample_java_spring_source.git
 
 
@@ -63,6 +64,11 @@ echo "****************************************************************"
 rm -rf /var/lib/tomcat8/webapps/ROOT
 
 # deploy the application as the ROOT web application
-cp sample_java_spring_source/artifacts/colony-java-spring-sample-1.0.0-BUILD-SNAPSHOT.war /var/lib/tomcat8/webapps/ROOT.war
+
+if ls $ARTIFACTS_PATH/java-spring-sample*.war 1> /dev/null 2>&1; then
+    cp $(find $ARTIFACTS_PATH -name 'java-spring-sample*.war') /var/lib/tomcat8/webapps/ROOT.war >/dev/null
+else
+	cp sample_java_spring_source/artifacts/colony-java-spring-sample-1.0.0-BUILD-SNAPSHOT.war /var/lib/tomcat8/webapps/ROOT.war
+fi
 
 systemctl start tomcat8
